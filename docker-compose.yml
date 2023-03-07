@@ -1,0 +1,25 @@
+version: '3.9'
+services:
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: releads
+    ports:
+      - 8888:8888
+    environment:
+      - LOG_LEVEL=INFO
+      - MONGODB_URL=mongodb://mongodb/releads_fast?readPreference=secondaryPreferred&connectTimeoutMS=4000&maxIdleTimeMS=90000&heartbeatFrequencyMS=12000&w=majority&wTimeoutMS=6000
+      - MONGODB_DBNAME=releads_fast
+      - MAX_CONNECTIONS_COUNT=10
+      - MIN_CONNECTIONS_COUNT=3
+    depends_on:
+      - mongodb
+
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    volumes:
+      - /tmp/mongo:/data/db
+    ports:
+      - 27017:27017

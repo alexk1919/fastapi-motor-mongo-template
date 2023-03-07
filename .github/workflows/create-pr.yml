@@ -1,0 +1,27 @@
+name: Auto Pull Request on Push
+
+on:
+  push:
+    branches:
+      - '*'
+    # if: "!contains(github.ref, 'main')"
+
+jobs:
+  create_pull_request:
+    runs-on: ubuntu-latest
+    if: github.ref != 'refs/heads/main'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v4.2.3
+        with:
+          token: ${{ secrets.PR_TOKEN }}
+          branch: ${{ github.ref }}
+          base: main
+          commit-message: 'Automated pull request from ${{ github.ref }} on ${{ format(github.event.head_commit.timestamp) }}'
+          title: New pull request from ${{ github.ref }} on ${{ format(github.event.head_commit.timestamp, 'DD/MM/YY HH:mm:ss') }}
+          body: Please review the changes made from ${{ github.ref }} on ${{ format(github.event.head_commit.timestamp, 'DD/MM/YY HH:mm:ss') }}
+          draft: false
+          # if: github.event.pull_request.head.ref != 'main'

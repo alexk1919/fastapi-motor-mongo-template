@@ -1,0 +1,31 @@
+name: Auto Merge and Close Pull Request
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  auto_merge_and_close:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Enable Pull Request Automerge
+        uses: peter-evans/enable-pull-request-automerge@v2
+        id: automerge
+        with:
+          token: ${{ secrets.PAT }}
+          pull-request-number: ${{ github.event.pull_request.number }}
+          merge-method: merge
+
+      - name: Close Pull Request
+        if: steps.automerge.outputs.merged == 'true'
+        uses: peter-evans/close-pull@v2
+        with:
+          token: ${{ secrets.PAT }}
+          pull-request-number: ${{ github.event.pull_request.number }}
+          comment: Auto-closing pull request
+          delete-branch: false
+
