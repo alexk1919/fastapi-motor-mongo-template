@@ -28,7 +28,7 @@ async def create_sample_resource(
         f'Inserting sample resource {name} into db...'
     )
     await conn[__db_name][__db_collection].insert_one(
-        new_sample_resource.mongo()
+        new_sample_resource.get_json_for_mongo()
     )
     logging.info(
         f"Sample resource {name} has inserted into db"

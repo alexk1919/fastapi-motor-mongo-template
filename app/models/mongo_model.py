@@ -2,7 +2,7 @@ from pydantic import BaseModel
 
 
 class MongoModel(BaseModel):
-    def mongo(self, **kwargs):
+    def get_json_for_mongo(self, **kwargs) -> dict:
         exclude_unset = kwargs.pop('exclude_unset', True)
         by_alias = kwargs.pop('by_alias', True)
 

@@ -1,4 +1,4 @@
-from pydantic import BaseModel, constr
+from pydantic import constr
 from datetime import datetime
 from uuid import UUID
 
@@ -10,11 +10,11 @@ def to_lower_camel_case(string: str) -> str:
     return split_str[0] + ''.join(word.capitalize() for word in split_str[1:])
 
 
-class SampleResourceBase(BaseModel):
+class SampleResourceBase(MongoModel):
     name: constr(max_length=255)
 
 
-class SampleResourceDB(SampleResourceBase, MongoModel):
+class SampleResourceDB(SampleResourceBase):
     id: UUID
     create_time: datetime
     update_time: datetime

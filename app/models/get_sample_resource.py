@@ -1,5 +1,5 @@
-from .mongo_model import MongoModel
+from pydantic import BaseModel
 
 
-class GetSampleResourceResp(MongoModel):
+class GetSampleResourceResp(BaseModel):
     name: str
