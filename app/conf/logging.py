@@ -24,12 +24,9 @@ class SensitiveInfoFilter(logging.Filter):
         return True
 
 
-def replace_env_for_config(log_conf: dict) -> None:
-    for k, v in log_conf.items():
-        if isinstance(v, dict):
-            replace_env_for_config(v)
-        elif isinstance(v, str) and v[0] == '$':
-            log_conf[k] = os.environ.get(v[1:])
+def setup_logging():
+    log_config = create_log_config('app/conf/logging.yaml')
+    logging.config.dictConfig(log_config)
 
 
 def create_log_config(log_path: str) -> dict:
@@ -39,6 +36,9 @@ def create_log_config(log_path: str) -> dict:
     return log_config
 
 
-def setup_logging():
-    log_config = create_log_config('app/conf/logging.yaml')
-    logging.config.dictConfig(log_config)
+def replace_env_for_config(log_conf: dict) -> None:
+    for k, v in log_conf.items():
+        if isinstance(v, dict):
+            replace_env_for_config(v)
+        elif isinstance(v, str) and v[0] == '$':
+            log_conf[k] = os.environ.get(v[1:])

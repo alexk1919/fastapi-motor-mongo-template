@@ -28,7 +28,7 @@ A new backend project created with this boilerplate provides:
 ## Getting Started
 
 ### Edit Environment Variables
-Edit the `.env` file within the project folder.
+Create and edit the `.env` file within the project folder.
 
 ### Run Tests
 ```sh

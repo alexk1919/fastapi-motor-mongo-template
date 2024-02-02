@@ -26,5 +26,5 @@ async def test_delete_sample_resource(
     assert resp.status_code == expected_status
 
     if 200 == resp.status_code:
-        resource_db = await mongo_client.get_sample_resource(resource_id)
+        resource_db = await mongo_client.get_sample_resource_by_id(resource_id, )
         assert True is resource_db.get('deleted')

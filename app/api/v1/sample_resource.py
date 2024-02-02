@@ -3,17 +3,16 @@ import logging
 from uuid import UUID
 
 from app.db.db import get_db, AsyncIOMotorClient
-from app.schemas.sample_resource import create_sample_resource as \
-    db_create_sample_resouce, get_sample_resource as \
-    db_get_sample_resource, update_sample_resource as \
-    db_update_sample_resource, delete_sample_resource as \
-    db_delete_sample_resource
-from app.common.util import uuid_masker
+from app.crud.sample_resource import create_sample_resource as db_create_sample_resource
+from app.crud.sample_resource import get_sample_resource_by_id as db_get_sample_resource
+from app.crud.sample_resource import update_sample_resource as db_update_sample_resource
+from app.crud.sample_resource import delete_sample_resource as db_delete_sample_resource
+from app.common.util import mask_uuid
 from app.common.error import UnprocessableError
 
-from app.models.create_sample_resource import \
+from app.schemas.create_sample_resource import \
     CreateSampleResourceReq, CreateSampleResourceResp
-from app.models.get_sample_resource import GetSampleResourceResp
+from app.schemas.get_sample_resource import GetSampleResourceResp
 
 router = APIRouter()
 
@@ -30,7 +29,7 @@ async def create_sample_resource(
 ):
     logging.info('Receive create sample resource request')
 
-    sample_resource_db = await db_create_sample_resouce(
+    sample_resource_db = await db_create_sample_resource(
         db,
         sample_resource_data.name
     )
@@ -49,7 +48,7 @@ async def get_sample_resource(
     db: AsyncIOMotorClient = Depends(get_db),
 ):
     logging.info(
-        f'Receive get sample resource {uuid_masker(resource)} request'
+        f'Receive get sample resource {mask_uuid(resource)} request'
     )
 
     sample_resource = await db_get_sample_resource(
@@ -75,15 +74,16 @@ async def update_sample_resource(
     db: AsyncIOMotorClient = Depends(get_db),
 ):
     logging.info(
-        f'Receive update sample resource {uuid_masker(resource_id)} request'
+        f'Receive update sample resource {mask_uuid(resource_id)} request'
     )
 
-    sample_resource = await db_update_sample_resource(
-        db,
-        resource_id,
-        sample_resource_data.dict()
-    )
-    if None is sample_resource:
+    try:
+        await db_update_sample_resource(
+            db,
+            resource_id,
+            sample_resource_data.dict()
+        )
+    except RuntimeError:
         raise UnprocessableError([])
 
     return {}
@@ -100,14 +100,15 @@ async def delete_sample_resource(
     db: AsyncIOMotorClient = Depends(get_db),
 ):
     logging.info(
-        f'Receive delete sample resource {uuid_masker(resource_id)} request'
+        f'Receive delete sample resource {mask_uuid(resource_id)} request'
     )
 
-    sample_resource = await db_delete_sample_resource(
-        db,
-        resource_id,
-    )
-    if None is sample_resource:
+    try:
+        await db_delete_sample_resource(
+            db,
+            resource_id,
+        )
+    except RuntimeError:
         raise UnprocessableError([])
 
     return {}

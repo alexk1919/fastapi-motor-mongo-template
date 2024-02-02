@@ -1,13 +1,12 @@
-import os
+from motor.motor_asyncio import AsyncIOMotorClient
 from dotenv import load_dotenv
-from motor.motor_asyncio import AsyncIOMotorClient, AsyncIOMotorDatabase
 import logging
 
 from app.conf.config import Config
 
 load_dotenv()
 
-db_client: AsyncIOMotorClient = None
+db_client: AsyncIOMotorClient
 
 
 async def get_db() -> AsyncIOMotorClient:
@@ -34,9 +33,5 @@ async def connect_and_init_db():
 
 async def close_db_connect():
     global db_client
-    if db_client is None:
-        logging.warning('Connection is None, nothing to close.')
-        return
     db_client.close()
-    db_client = None
     logging.info('Mongo connection closed.')
