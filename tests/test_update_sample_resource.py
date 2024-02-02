@@ -28,5 +28,5 @@ async def test_update_sample_resource(
     assert resp.status_code == expected_status
 
     if 200 == expected_status:
-        resource_db = await mongo_client.get_sample_resource(resource_id)
+        resource_db = await mongo_client.get_sample_resource_by_id(resource_id, )
         assert resource_db.get('name') == name

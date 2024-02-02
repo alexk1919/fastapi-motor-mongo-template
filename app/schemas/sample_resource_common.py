@@ -14,7 +14,7 @@ class SampleResourceBase(MongoModel):
     name: constr(max_length=255)
 
 
-class SampleResourceDB(SampleResourceBase):
+class SampleResource(SampleResourceBase):
     id: UUID
     create_time: datetime
     update_time: datetime

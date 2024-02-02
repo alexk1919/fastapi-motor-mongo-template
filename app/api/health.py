@@ -12,7 +12,6 @@ router = APIRouter()
 @router.get('')
 async def health(db: AsyncIOMotorClient = Depends(get_db)):
     try:
-        # Check if the database is responsive
         await db.command('ping')
         db_status = 'up'
     except Exception:
