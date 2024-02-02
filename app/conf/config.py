@@ -1,8 +1,9 @@
 import os
-from dotenv import load_dotenv
 import logging
+from dotenv import load_dotenv
 
 from app.common.error import InternalError
+
 
 load_dotenv()
 
@@ -16,6 +17,8 @@ class Config:
         'mongodb_url': os.environ['MONGO_URL'],
         'db_username': os.environ['MONGO_USER'],
         'db_password': os.environ['MONGO_PASSWORD'],
+        'max_db_conn_count': os.environ['MAX_CONNECTIONS_COUNT'],
+        'min_db_conn_count': os.environ['MIN_CONNECTIONS_COUNT'],
     }
 
     @classmethod

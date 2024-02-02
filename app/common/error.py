@@ -19,11 +19,6 @@ class BaseErrResp(Exception):
         )
 
 
-class BadRequest(BaseErrResp):
-    def __init__(self, details: list):
-        super(BadRequest, self).__init__(400, 'Bad Request', details)
-
-
 class InternalError(BaseErrResp):
     def __init__(self, details: list):
         super(InternalError, self).__init__(500, 'Internal Error', details)
