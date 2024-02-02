@@ -5,7 +5,7 @@ from pymongo import ReturnDocument
 
 from app.conf.config import Config
 from app.db.db import AsyncIOMotorClient
-from app.models.sample_resource_common import SampleResourceDB
+from app.schemas.sample_resource_common import SampleResourceDB
 from app.common.util import uuid_masker
 
 

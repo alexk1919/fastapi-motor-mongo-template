@@ -15,7 +15,7 @@ app = FastAPI()
 app.mount("/static", StaticFiles(directory="frontend/static"), name="static")
 
 # DB Events
-app.add_event_handler("startup", Config.app_settings_validate)
+app.add_event_handler("startup", Config.check_app_settings_on_none)
 app.add_event_handler("startup", connect_and_init_db)
 app.add_event_handler("shutdown", close_db_connect)
 

@@ -3,7 +3,7 @@ import logging
 from uuid import UUID
 
 from app.db.db import get_db, AsyncIOMotorClient
-from app.schemas.sample_resource import create_sample_resource as \
+from app.crud.sample_resource import create_sample_resource as \
     db_create_sample_resource, get_sample_resource as \
     db_get_sample_resource, update_sample_resource as \
     db_update_sample_resource, delete_sample_resource as \
@@ -11,9 +11,9 @@ from app.schemas.sample_resource import create_sample_resource as \
 from app.common.util import uuid_masker
 from app.common.error import UnprocessableError
 
-from app.models.create_sample_resource import \
+from app.schemas.create_sample_resource import \
     CreateSampleResourceReq, CreateSampleResourceResp
-from app.models.get_sample_resource import GetSampleResourceResp
+from app.schemas.get_sample_resource import GetSampleResourceResp
 
 router = APIRouter()
 
