@@ -12,12 +12,10 @@ class Config:
     title = "releads"
 
     app_settings = {
-        'db_name': os.getenv('MONGO_DB'),
-        'mongodb_url': os.getenv('MONGO_URL'),
-        'db_username': os.getenv('MONGO_USER'),
-        'db_password': os.getenv('MONGO_PASSWORD'),
-        'max_db_conn_count': os.getenv('MAX_CONNECTIONS_COUNT'),
-        'min_db_conn_count': os.getenv('MIN_CONNECTIONS_COUNT'),
+        'db_name': os.environ['MONGO_DB'],
+        'mongodb_url': os.environ['MONGO_URL'],
+        'db_username': os.environ['MONGO_USER'],
+        'db_password': os.environ['MONGO_PASSWORD'],
     }
 
     @classmethod
